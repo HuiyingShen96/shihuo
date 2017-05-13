@@ -1,0 +1,204 @@
+/*body{*/
+    /*background: url("../img/bg.png");*/
+/*}*/
+a, a:hover, a:focus {
+    text-decoration: none;
+    outline: 0px;
+    cursor: pointer;
+}
+
+
+.navbar-default {
+    border-radius: 0;
+}
+#navbar-collapse-01 {
+    max-height: 500px;
+}
+.search{
+    text-align: right;
+}
+.content{
+    margin-top:20px;
+}
+
+.createProduct{
+    cursor: pointer;
+}
+
+#productDetails h3.title{
+    border-bottom: 1px solid #eee;
+    padding-bottom: .3em;
+}
+
+/*物品列表显示页样式*/
+#list-products a{
+    color: #000;
+    text-decoration: none;
+}
+#list-products a:link, #list-products a:visited, #list-products a:hover, #list-products a:active{
+    color: #000;
+    text-decoration: none;
+}
+#list-products a:hover{
+    color: blue;
+}
+#list-products .my-item{
+    /*border: 1px solid #ddd;*/
+    /*padding: 4px;*/
+    border-radius: 4px;
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+    margin-bottom: 20px;
+    overflow: hidden;
+    /*background-color: gray;*/
+}
+#list-products .my-item:hover{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#list-products .my-img-wrap{
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 61.80469715698393%;
+    overflow: hidden;
+    background-color: #f8f8f8;
+}
+#list-products .my-img-wrap img{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+#list-products .my-img-wrap:hover{
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+#list-products .my-summary{
+    padding: 9px;
+    color: #333;
+
+    /*border: 1px solid #ddd;*/
+    /*border-top: none;*/
+    /*border-radius: 0 0 4px 4px;*/
+}
+#list-products .my-summary h4{
+    margin-bottom: 0;
+}
+#list-products .cutOff{
+    /*截断文字，显示省略号*/
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+#list-products .my-summary p{
+    margin: 0;
+}
+#list-products .my-price{
+    color: red;
+}
+#list-products .creator{
+    color: #78909c;
+}
+
+/*物品详情页*/
+#view-product #myImg {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/*#view-product #myImg:hover {opacity: 0.7;}*/
+
+/* The Modal (background) */
+#view-product .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+#view-product .modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    -webkit-border-radius:0;
+    -moz-border-radius:0;
+    border-radius:0;
+}
+
+/* Caption of Modal Image */
+#view-product #caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation */
+#view-product .modal-content, #caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform: scale(0)}
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes zoom {
+    from {transform: scale(0.1)}
+    to {transform: scale(1)}
+}
+
+/* The Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+
+    width: 1em;
+    text-align: center;
+    height: 1em;
+    background-color: rgba(255,255,255,0.4);
+    border-radius: 50%;
+}
+
+.close:hover,
+.close:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+    }
+}
+
+#my-tradeOrder .pending{
+    /*font-weight: bold;*/
+    color: black;
+}

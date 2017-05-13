@@ -1,0 +1,162 @@
+<div ng-controller="ProductController">
+    <!--导航栏-->
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button target="#navbar-collapse-01" toggle="collapse" class="navbar-toggle" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand" style="padding: 8px;"><img style="height: 100%;" src="../../img/logo-black.png" alt=""></a>
+            </div>
+            <div id="navbar-collapse-01" class="navbar-collapse collapse"  style="height: 0.8px;">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/#!/products/offer">物品提供 <span class="sr-only">(current)</span></a></li>
+                    <li><a href="/#!/products/get">物品征求</a></li>
+                    <li ng-show="authentication.user"><a href="/#!/products/create">发布</a></li>
+                    <li class="dropdown" ng-if="authentication.user">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            个人中心
+                            <span ng-controller="TradeOrderController" ng-init="newsCtrl()" ng-bind="news.length==0?'':news.length" style="color: red;"></span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/#!/user/{{authentication.user.username}}/offer">我的出售物品</a></li>
+                            <li><a href="/#!/user/{{authentication.user.username}}/get">我的求购物品</a></li>
+                            <!--<li><a href="#">我的收藏</a></li>-->
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="/#!/tradeOrder/{{authentication.user.username}}">
+                                    我的交易
+                                    <span ng-controller="TradeOrderController" ng-init="newsCtrl()" ng-bind="news.length==0?'':news.length" style="color: red;">99</span>
+                                </a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#!/user/{{authentication.user._id}}">当前账号：{{authentication.user.username}}</a></li>
+                            <li><a href="#!/user/{{authentication.user._id}}/edit">修改我的账号</a></li>
+                            <li><a href="/signout">登出</a></li>
+                        </ul>
+                    </li>
+                    <li ng-if="!authentication.user"><a href="/signin">登录/注册</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--新建物品表单-->
+    <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">发布出售物品</div>
+            <div class="panel-body">
+                <form ng-submit="create()" class="form-horizontal" novalidate enctype="multipart/form-data" name="create_product" id="create_product">
+                    <!--offer_or_get-->
+                    <div class="form-group">
+                        <label class="control-label col-lg-3">出售或求购</label>
+                        <div class="col-lg-9">
+                            <label>
+                                <input required type="radio" value="offer" name="offer_or_get" ng-model="seekProduct.offer_or_get">出售
+                            </label>
+                            <label>
+                                <input required type="radio" value="get" name="offer_or_get" ng-model="seekProduct.offer_or_get">求购
+                            </label>
+                        </div>
+                    </div>
+                    <!--name-->
+                    <div class="form-group">
+                        <label for="name" class="control-label col-lg-3">物品名称</label>
+                        <div class="col-lg-9">
+                            <input required type="text" id="name" name="name" class="form-control" ng-model="seekProduct.name">
+                        </div>
+                    </div>
+                    <!--status-->
+                    <div class="form-group">
+                        <label class="control-label col-lg-3">状态</label>
+                        <div class="col-lg-9">
+                            <label>
+                                <input required type="radio" value="上架" name="status" ng-model="seekProduct.status">上架
+                            </label>
+                            <label>
+                                <input required type="radio" value="下架" name="status" ng-model="seekProduct.status">下架
+                            </label>
+                        </div>
+                    </div>
+                    <!--category-->
+                    <div class="form-group">
+                        <label for="category" class="col-lg-3 control-label">分类</label>
+                        <div class="col-lg-9">
+                            <select required name="category" id="category" class="form-control" ng-model="seekProduct.category">
+                                <option value="">请选择分类</option>
+                                <option value="书籍">书籍</option>
+                                <option value="衣物">衣物</option>
+                                <option value="电子产品">电子产品</option>
+                                <option value="日常用品">日常用品</option>
+                                <option value="其它">其它</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--image-->
+                    <div class="form-group">
+                        <div class="col-lg-offset-3 col-lg-9">
+                            <input type="file" accept="image/*" name="image" id="upImage">
+                        </div>
+                    </div>
+                    <!--price-->
+                    <div class="form-group">
+                        <label for="price" class="control-label col-lg-3">价格</label>
+                        <div class="col-lg-9">
+                            <div class="input-group">
+                                <span class="input-group-addon">￥</span>
+                                <input required class="form-control" type="text" id="price" name="price" ng-model="seekProduct.price">
+                            </div>
+                        </div>
+                    </div>
+                    <!--details-->
+                    <div class="form-group">
+                        <label for="details" class="control-label col-lg-3">详情描述</label>
+                        <div class="col-lg-9">
+                            <textarea required class="form-control" name="details" id="details" cols="30" rows="10" ng-model="seekProduct.details"></textarea>
+                        </div>
+                    </div>
+                    <!--way-->
+                    <div class="form-group">
+                        <label class="control-label col-lg-3">交易方式</label>
+                        <div class="col-lg-9">
+                            <label>
+                                <input required type="radio" name="way" value="售卖" ng-model="seekProduct.way">
+                                售卖
+                            </label>
+                            <label>
+                                <input required type="radio" name="way" value="捐赠" ng-model="seekProduct.way">
+                                捐赠
+                            </label>
+                        </div>
+                    </div>
+                    <!--exchange_or_not-->
+                    <div class="form-group">
+                        <label class="control-label col-lg-3">是否交换</label>
+                        <div class="col-lg-9">
+                            <label>
+                                <input required type="checkbox" name="exchange_or_not" value=true ng-model="seekProduct.exchange_or_not">是（交换条件可在详情中描述）
+                            </label>
+                        </div>
+                    </div>
+                    <!--exchange_condition-->
+                    <div class="form-group">
+                        <label for="exchange_condition" class="control-label col-lg-3">交换条件</label>
+                        <div class="col-lg-9">
+                            <textarea class="form-control" name="exchange_condition" id="exchange_condition" cols="30" rows="10" ng-model="seekProduct.exchange_condition"></textarea>
+                        </div>
+                    </div>
+                    <!--submit-->
+                    <div class="form-group">
+                        <div class="col-lg-offset-3 col-lg-9">
+                            <input type="submit" class="btn btn-primary" value="提交">
+                            <input type="reset" class="btn btn-default" value="重置">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

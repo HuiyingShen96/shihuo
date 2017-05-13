@@ -1,0 +1,121 @@
+<div id="my-tradeOrder" ng-controller="TradeOrderController" ng-init="find()">
+    <!--导航栏-->
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button target="#navbar-collapse-01" toggle="collapse" class="navbar-toggle" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand" style="padding: 8px;"><img style="height: 100%;" src="../../img/logo-black.png" alt=""></a>
+            </div>
+            <div id="navbar-collapse-01" class="navbar-collapse collapse"  style="height: 0.8px;">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/#!/products/offer">物品提供 <span class="sr-only">(current)</span></a></li>
+                    <li><a href="/#!/products/get">物品征求</a></li>
+                    <li ng-show="authentication.user"><a href="/#!/products/create">发布</a></li>
+                    <li class="dropdown" ng-if="authentication.user">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            个人中心
+                            <span ng-controller="TradeOrderController" ng-init="newsCtrl()" ng-bind="news.length==0?'':news.length" style="color: red;"></span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/#!/user/{{authentication.user.username}}/offer">我的出售物品</a></li>
+                            <li><a href="/#!/user/{{authentication.user.username}}/get">我的求购物品</a></li>
+                            <!--<li><a href="#">我的收藏</a></li>-->
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="/#!/tradeOrder/{{authentication.user.username}}">
+                                    我的交易
+                                    <span ng-controller="TradeOrderController" ng-init="newsCtrl()" ng-bind="news.length==0?'':news.length" style="color: red;">99</span>
+                                </a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#!/user/{{authentication.user._id}}">当前账号：{{authentication.user.username}}</a></li>
+                            <li><a href="#!/user/{{authentication.user._id}}/edit">修改我的账号</a></li>
+                            <li><a href="/signout">登出</a></li>
+                        </ul>
+                    </li>
+                    <li ng-if="!authentication.user"><a href="/signin">登录/注册</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--表格-->
+    <div class="table-responsive container">
+        <table class="table table-striped table-hover">
+            <caption>我发起的交易请求</caption>
+            <thead>
+            <tr>
+                <th>接收方</th>
+                <th>发起时间</th>
+                <th>出售/求购</th>
+                <th>物品编号</th>
+                <th>物品名称</th>
+                <th>交易状态</th>
+                <th>操作</th>
+                <th>查看</th>
+            </tr>
+            </thead>
+            <tbody style="color: gray;">
+            <tr ng-class="{pending: tradeOrder.status=='agree'}" ng-repeat="tradeOrder in tradeOrderList | filter:{creator:{_id:authentication.user._id}}">
+                <td ng-bind="tradeOrder.receiver.username"></td>
+                <td ng-bind="tradeOrder.created | date:'y/MM/dd'"></td>
+                <td ng-bind="tradeOrder.offer_or_get=='offer' ? '出售' : '求购'"></td>
+                <td ng-bind="tradeOrder.product._id"></td>
+                <td ng-bind="tradeOrder.product.name"></td>
+                <td>
+                    <span ng-if="tradeOrder.status=='pending'">等待对方回复中</span>
+                    <span ng-if="tradeOrder.status=='agree'">对方已同意交易</span>
+                    <span ng-if="tradeOrder.status=='cancel'">交易已取消</span>
+                    <span ng-if="tradeOrder.status=='finished'">交易已结束</span>
+                </td>
+                <td>
+                    <span ng-if="tradeOrder.status=='pending'"><a ng-click="agreeTrade(tradeOrder,false)">取消交易</a></span>
+                    <span ng-if="tradeOrder.status=='agree' || tradeOrder.status=='cancel'"><a ng-click="finishTrade(tradeOrder)">确认</a></span>
+                </td>
+                <td><a href="#!/tradeOrder/{{authentication.user.username}}/{{tradeOrder._id}}">查看</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped table-hover">
+            <caption>我收到的交易请求</caption>
+            <thead>
+            <tr>
+                <th>请求方</th>
+                <th>发起时间</th>
+                <th>出售/求购</th>
+                <th>物品编号</th>
+                <th>物品名称</th>
+                <th>交易状态</th>
+                <th>操作</th>
+                <th>查看</th>
+            </tr>
+            </thead>
+            <tbody style="color: gray;">
+            <tr ng-class="{pending: tradeOrder.status=='pending'}" ng-repeat="tradeOrder in tradeOrderList | filter:{receiver:{_id:authentication.user._id}}">
+                <td ng-bind="tradeOrder.creator.username"></td>
+                <td ng-bind="tradeOrder.created | date:'y/MM/dd'"></td>
+                <td ng-bind="tradeOrder.offer_or_get=='offer' ? '出售' : '求购'"></td>
+                <td ng-bind="tradeOrder.product._id"></td>
+                <td ng-bind="tradeOrder.product.name"></td>
+                <td>
+                    <span ng-if="tradeOrder.status=='pending'">待处理</span>
+                    <span ng-if="tradeOrder.status=='agree'">已同意本次交易</span>
+                    <span ng-if="tradeOrder.status=='cancel'">本次交易已取消</span>
+                    <span ng-if="tradeOrder.status=='finished'">本次交易已结束</span>
+                </td>
+                <td>
+                    <span ng-if="tradeOrder.status=='pending'">
+                        <a ng-click="agreeTrade(tradeOrder,true)">同意交易</a> / <a ng-click="agreeTrade(tradeOrder,false)">取消交易</a>
+                    </span>
+                </td>
+                <td><a href="#!/tradeOrder/{{authentication.user.username}}/{{tradeOrder._id}}">查看</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

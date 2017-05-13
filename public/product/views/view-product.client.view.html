@@ -1,0 +1,106 @@
+
+<div id="view-product" data-ng-controller="ProductController" data-ng-init="findOne()">
+    <!--导航栏-->
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button target="#navbar-collapse-01" toggle="collapse" class="navbar-toggle" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand" style="padding: 8px;"><img style="height: 100%;" src="../../img/logo-black.png" alt=""></a>
+            </div>
+            <div id="navbar-collapse-01" class="navbar-collapse collapse"  style="height: 0.8px;">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/#!/products/offer">物品提供 <span class="sr-only">(current)</span></a></li>
+                    <li><a href="/#!/products/get">物品征求</a></li>
+                    <li ng-show="authentication.user"><a href="/#!/products/create">发布</a></li>
+                    <li class="dropdown" ng-if="authentication.user">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            个人中心
+                            <span ng-controller="TradeOrderController" ng-init="newsCtrl()" ng-bind="news.length==0?'':news.length" style="color: red;"></span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/#!/user/{{authentication.user.username}}/offer">我的出售物品</a></li>
+                            <li><a href="/#!/user/{{authentication.user.username}}/get">我的求购物品</a></li>
+                            <!--<li><a href="#">我的收藏</a></li>-->
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="/#!/tradeOrder/{{authentication.user.username}}">
+                                    我的交易
+                                    <span ng-controller="TradeOrderController" ng-init="newsCtrl()" ng-bind="news.length==0?'':news.length" style="color: red;">99</span>
+                                </a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#!/user/{{authentication.user._id}}">当前账号：{{authentication.user.username}}</a></li>
+                            <li><a href="#!/user/{{authentication.user._id}}/edit">修改我的账号</a></li>
+                            <li><a href="/signout">登出</a></li>
+                        </ul>
+                    </li>
+                    <li ng-if="!authentication.user"><a href="/signin">登录/注册</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="content-box container" id="productDetails">
+        <div class="content">
+            <div class="row">
+                <div style="width: 360px;height: 270px; position: relative;background-color: #f8f8f8; overflow: hidden;" title="点击看大图" class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <img id="myImg" style="width: 100%; position: absolute; top: 0; right: 0; bottom: 0; left: 0; margin: auto;" data-ng-src="{{product.image_url}}" alt="{{product.name}}">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                    <h3 data-ng-bind="product.name"></h3>
+                    <div data-ng-show="authentication.user._id === product.creator._id">
+                        <a href="/#!/products/offer/{{product._id}}/edit">修改</a>
+                        <a href="#" data-ng-click="delete()">删除</a>
+                    </div>
+                    <p>上传时间：<span data-ng-bind="product.created | date:'y/MM/dd'"></span></p>
+                    <p>上传者：<span data-ng-bind="product.creator.username"></span></p>
+                    <p>交易方式：<span data-ng-bind="product.way"></span><span data-ng-show="product.exchange_or_not"> / 交换</span></p>
+                    <p data-ng-show="product.exchange_or_not">交换条件：</p>
+                    <p data-ng-show="product.exchange_or_not" data-ng-bind="product.exchange_condition"></p>
+                    <p>所属分类：<span data-ng-bind="product.category"></span></p>
+                    <button ng-if="product.creator._id != authentication.user._id" ng-controller="TradeOrderController" ng-click="create()" class="btn btn-primary">交易</button>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="title">详情描述</h3>
+                    <p data-ng-bind="product.details"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <span class="close">×</span>
+        <img class="modal-content" id="img01">
+        <div id="caption"></div>
+    </div>
+    <script>
+        // Get the modal
+        var modal = document.getElementById('myModal');
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById('myImg');
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        img.onclick = function(){
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.alt;
+        }
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+    </script>
+</div>

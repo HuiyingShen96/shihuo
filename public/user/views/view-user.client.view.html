@@ -1,0 +1,67 @@
+<div ng-controller="UserController" ng-init="findOne()">
+    <!--导航栏-->
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button target="#navbar-collapse-01" toggle="collapse" class="navbar-toggle" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand" style="padding: 8px;"><img style="height: 100%;" src="../../img/logo-black.png" alt=""></a>
+            </div>
+            <div id="navbar-collapse-01" class="navbar-collapse collapse"  style="height: 0.8px;">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/#!/products/offer">物品提供 <span class="sr-only">(current)</span></a></li>
+                    <li><a href="/#!/products/get">物品征求</a></li>
+                    <li ng-show="authentication.user"><a href="/#!/products/create">发布</a></li>
+                    <li class="dropdown" ng-if="authentication.user">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            个人中心
+                            <span ng-controller="TradeOrderController" ng-init="newsCtrl()" ng-bind="news.length==0?'':news.length" style="color: red;"></span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/#!/user/{{authentication.user.username}}/offer">我的出售物品</a></li>
+                            <li><a href="/#!/user/{{authentication.user.username}}/get">我的求购物品</a></li>
+                            <!--<li><a href="#">我的收藏</a></li>-->
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="/#!/tradeOrder/{{authentication.user.username}}">
+                                    我的交易
+                                    <span ng-controller="TradeOrderController" ng-init="newsCtrl()" ng-bind="news.length==0?'':news.length" style="color: red;">99</span>
+                                </a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#!/user/{{authentication.user._id}}">当前账号：{{authentication.user.username}}</a></li>
+                            <li><a href="#!/user/{{authentication.user._id}}/edit">修改我的账号</a></li>
+                            <li><a href="/signout">登出</a></li>
+                        </ul>
+                    </li>
+                    <li ng-if="!authentication.user"><a href="/signin">登录/注册</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div>
+        <table class="table" style="max-width: 300px;margin: 0 auto;">
+            <caption style="text-align: center;">当前用户资料</caption>
+            <tr>
+                <td>用户名：</td><td ng-bind="user.username"></td>
+            </tr>
+            <tr>
+                <td>手机号：</td><td ng-bind="user.mobile"></td>
+            </tr>
+            <tr>
+                <td>地址：</td><td ng-bind="user.address"></td>
+            </tr>
+            <tr>
+                <td>微信号：</td><td ng-bind="user.Wechat_ID"></td>
+            </tr>
+            <tr>
+                <td>QQ号：</td><td ng-bind="user.QQ_ID"></td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,144 @@
+
+<div ng-controller="TradeOrderController" ng-init="findOne()">
+    <!--导航栏-->
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button target="#navbar-collapse-01" toggle="collapse" class="navbar-toggle" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand" style="padding: 8px;"><img style="height: 100%;" src="../../img/logo-black.png" alt=""></a>
+            </div>
+            <div id="navbar-collapse-01" class="navbar-collapse collapse"  style="height: 0.8px;">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/#!/products/offer">物品提供 <span class="sr-only">(current)</span></a></li>
+                    <li><a href="/#!/products/get">物品征求</a></li>
+                    <li ng-show="authentication.user"><a href="/#!/products/create">发布</a></li>
+                    <li class="dropdown" ng-if="authentication.user">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            个人中心
+                            <span ng-controller="TradeOrderController" ng-init="newsCtrl()" ng-bind="news.length==0?'':news.length" style="color: red;"></span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/#!/user/{{authentication.user.username}}/offer">我的出售物品</a></li>
+                            <li><a href="/#!/user/{{authentication.user.username}}/get">我的求购物品</a></li>
+                            <!--<li><a href="#">我的收藏</a></li>-->
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="/#!/tradeOrder/{{authentication.user.username}}">
+                                    我的交易
+                                    <span ng-controller="TradeOrderController" ng-init="newsCtrl()" ng-bind="news.length==0?'':news.length" style="color: red;">99</span>
+                                </a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#!/user/{{authentication.user._id}}">当前账号：{{authentication.user.username}}</a></li>
+                            <li><a href="#!/user/{{authentication.user._id}}/edit">修改我的账号</a></li>
+                            <li><a href="/signout">登出</a></li>
+                        </ul>
+                    </li>
+                    <li ng-if="!authentication.user"><a href="/signin">登录/注册</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-lg-offset-2 ">
+                <div style="max-width: 300px;max-height: 300px;overflow: hidden;">
+                    <a ng-href="#!/products/get/{{tradeOrder.product._id}}"><img src="{{tradeOrder.product.image_url}}"></a>
+                </div>
+            </div>
+            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 ">
+                <h2>交易订单详情</h2>
+                <table class="table" style="max-width: 300px;">
+                    <tr>
+                        <td>创建时间：</td><td ng-bind="tradeOrder.created"></td>
+                    </tr>
+                    <tr>
+                        <td>订单号：</td><td ng-bind="tradeOrder._id"></td>
+                    </tr>
+                    <tr>
+                        <td>交易状态：</td>
+                        <td>
+                            <span ng-if="tradeOrder.status=='pending'">等待回复中</span>
+                            <span ng-if="tradeOrder.status=='agree'">已同意交易</span>
+                            <span ng-if="tradeOrder.status=='cancel'">交易已取消</span>
+                            <span ng-if="tradeOrder.status=='finished'">交易已结束</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>出售/求购：</td><td ng-bind="tradeOrder.offer_or_get=='offer' ? '出售' : '求购'"></td>
+                    </tr>
+                    <tr>
+                        <td>产品名称：</td><td ng-bind="tradeOrder.product.name"></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td>产品编号：</td><td ng-bind="tradeOrder.product._id"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-lg-offset-2">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">发起方资料</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table" style="max-width: 300px;margin: 0 auto;">
+                            <tr>
+                                <td>用户名：</td><td ng-bind="tradeOrder.creator.username"></td>
+                            </tr>
+                            <tr>
+                                <td>手机号：</td><td ng-bind="tradeOrder.creator.mobile"></td>
+                            </tr>
+                            <tr>
+                                <td>地址：</td><td ng-bind="tradeOrder.creator.address"></td>
+                            </tr>
+                            <tr>
+                                <td>微信号：</td><td ng-bind="tradeOrder.creator.Wechat_ID"></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #ddd;">
+                                <td>QQ号：</td><td ng-bind="tradeOrder.creator.QQ_ID"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">接收方资料</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table" style="max-width: 300px;margin: 0 auto;">
+                            <tr>
+                                <td>用户名：</td><td ng-bind="tradeOrder.receiver.username"></td>
+                            </tr>
+                            <tr>
+                                <td>手机号：</td><td ng-bind="tradeOrder.receiver.mobile"></td>
+                            </tr>
+                            <tr>
+                                <td>地址：</td><td ng-bind="tradeOrder.receiver.address"></td>
+                            </tr>
+                            <tr>
+                                <td>微信号：</td><td ng-bind="tradeOrder.receiver.Wechat_ID"></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #ddd;">
+                                <td>QQ号：</td><td ng-bind="tradeOrder.receiver.QQ_ID"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,101 @@
+<div ng-controller="ProductController">
+    <!--导航栏-->
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button target="#navbar-collapse-01" toggle="collapse" class="navbar-toggle" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand" style="padding: 8px;"><img style="height: 100%;" src="../../img/logo-black.png" alt=""></a>
+            </div>
+            <div id="navbar-collapse-01" class="navbar-collapse collapse"  style="height: 0.8px;">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/#!/products/offer">物品提供 <span class="sr-only">(current)</span></a></li>
+                    <li><a href="/#!/products/get">物品征求</a></li>
+                    <li ng-show="authentication.user"><a href="/#!/products/create">发布</a></li>
+                    <li class="dropdown" ng-if="authentication.user">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            个人中心
+                            <span ng-controller="TradeOrderController" ng-init="newsCtrl()" ng-bind="news.length==0?'':news.length" style="color: red;"></span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/#!/user/{{authentication.user.username}}/offer">我的出售物品</a></li>
+                            <li><a href="/#!/user/{{authentication.user.username}}/get">我的求购物品</a></li>
+                            <!--<li><a href="#">我的收藏</a></li>-->
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="/#!/tradeOrder/{{authentication.user.username}}">
+                                    我的交易
+                                    <span ng-controller="TradeOrderController" ng-init="newsCtrl()" ng-bind="news.length==0?'':news.length" style="color: red;">99</span>
+                                </a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#!/user/{{authentication.user._id}}">当前账号：{{authentication.user.username}}</a></li>
+                            <li><a href="#!/user/{{authentication.user._id}}/edit">修改我的账号</a></li>
+                            <li><a href="/signout">登出</a></li>
+                        </ul>
+                    </li>
+                    <li ng-if="!authentication.user"><a href="/signin">登录/注册</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--查找-->
+    <div class="search container">
+        <form class="form-inline">
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="filter.name" id="name" placeholder="请输入关键字">
+            </div>
+            <div class="form-group">
+                <div class="col-lg-9">
+                    <select name="category" id="category" class="form-control" ng-model="filter.category">
+                        <option value="">全部分类</option>
+                        <option value="书籍">书籍</option>
+                        <option value="衣物">衣物</option>
+                        <option value="电子产品">电子产品</option>
+                        <option value="日常用品">日常用品</option>
+                        <option value="其它">其它</option>
+                    </select>
+                </div>
+            </div>
+            <button type="button" ng-click="search()" class="btn btn-default">查找</button>
+        </form>
+    </div>
+    
+    <div class="table-responsive container">
+        <table class="table table-striped" ng-init="find()">
+            <caption>我的<span>{{params.queryParams.offer_or_get=='get'?'求购':'出售'}}</span>物品</caption>
+            <thead>
+                <tr>
+                    <!--<th><input type="checkbox"/>全选 </th>-->
+                    <th>物品图片</th>
+                    <th>物品名称</th>
+                    <th>编号</th>
+                    <th>状态</th>
+                    <th>价格</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="product in productList | filter: {creator:{username: authentication.user.username}}" style="vertical-align: center;">
+                    <!--<td><input type="checkbox"></td>-->
+                    <td><img ng-src="{{product.image_url}}" style="max-height:80px;max-width:80px;"></td>
+                    <td ng-bind="product.name"></td>
+                    <td ng-bind="product._id"></td>
+                    <td ng-bind="product.status"></td>
+                    <td ng-bind="product.price"></td>
+                    <td>
+                        <a href="#!/products/get/{{product._id}}">查看</a>
+                        <a href="/#!/products/offer/{{product._id}}/edit">修改</a>
+                        <a ng-click="delete(product)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

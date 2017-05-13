@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
+
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+    <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <title><%= title %></title>
+</head>
+<body>
+
+
+    <div ng-view></div>
+    <!--<section ng-view></section>-->
+
+    <script type="text/javascript">
+        window.user = <%- user || 'null' %>
+    </script>
+
+    <script type="text/javascript" src="/lib/angular/angular.js"></script>
+    <script type="text/javascript" src="/lib/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="/lib/angular-resource/angular-resource.js"></script>
+
+    <script type="text/javascript" src="/product/product.client.module.js"></script>
+    <script type="text/javascript" src="/product/controllers/product.client.controller.js"></script>
+    <script type="text/javascript" src="/product/services/product.client.service.js"></script>
+    <script type="text/javascript" src="/product/config/product.client.routes.js"></script>
+
+    <!--load user module-->
+    <script type="text/javascript" src="/user/user.client.module.js"></script>
+    <script type="text/javascript" src="/user/config/user.client.routes.js"></script>
+    <script type="text/javascript" src="/user/controllers/user.client.controller.js"></script>
+    <script type="text/javascript" src="/user/services/authentication.client.service.js"></script>
+    <script type="text/javascript" src="/user/services/user.client.service.js"></script>
+
+    <script type="text/javascript" src="/tradeOrder/tradeOrder.client.module.js"></script>
+    <script type="text/javascript" src="/tradeOrder/config/tradeOrder.client.routes.js"></script>
+    <script type="text/javascript" src="/tradeOrder/services/tradeOrder.client.service.js"></script>
+    <script type="text/javascript" src="/tradeOrder/controllers/tradeOrder.client.controller.js"></script>
+
+    <script type="text/javascript" src="/application.js"></script>
+
+</body>
+</html>

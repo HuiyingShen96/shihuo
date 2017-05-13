@@ -1,0 +1,24 @@
+{
+  "name": "shihuo",
+  "description": "一个校园二手交易平台",
+  "main": "index.js",
+  "authors": [
+    "shenhuiying"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.0",
+    "angular": "^1.6.3",
+    "angular-route": "^1.6.3",
+    "angular-resource": "^1.6.3"
+  }
+}
