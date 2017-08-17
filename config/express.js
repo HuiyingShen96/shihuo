@@ -50,7 +50,6 @@ module.exports = function() {
     require('../app/routes/index.server.route')(app);
     require('../app/routes/user.server.route')(app);
     require('../app/routes/product.server.route')(app);
-    // require('../app/routes/tipOff.server.route')(app);
     require('../app/routes/tradeOrder.server.route')(app);
 
     //配置静态文件服务

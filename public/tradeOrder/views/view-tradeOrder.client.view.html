@@ -48,6 +48,11 @@
 
     <div class="container-fluid">
         <div class="row">
+            <div class="col-lg-10 col-lg-offset-2" style="margin-bottom: 15px;">
+                <a onclick="window.history.go(-1);">&lt;返回上一页</a>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-lg-offset-2 ">
                 <div style="max-width: 300px;max-height: 300px;overflow: hidden;">
                     <a ng-href="#!/products/get/{{tradeOrder.product._id}}"><img src="{{tradeOrder.product.image_url}}"></a>

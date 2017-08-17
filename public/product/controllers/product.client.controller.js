@@ -117,7 +117,7 @@ angular.module('product')
                 }else {
                     // 在查看详情中执行“删除”
                     $scope.product.$remove(function () {
-                        $location.path('products/' + $scope.product.offer_or_get);
+                        $location.path('user/' + Authentication.user.username +'/'+$scope.product.offer_or_get);
                         // TODO: 这里应该导航到其它页面，比如“我的求购物品”页面
                     })
                 }

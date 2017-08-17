@@ -48,6 +48,11 @@
     <div class="content-box container" id="productDetails">
         <div class="content">
             <div class="row">
+                <div style="margin-bottom: 15px;">
+                    <a onclick="window.history.go(-1);">&lt;返回上一页</a>
+                </div>
+            </div>
+            <div class="row">
                 <div style="width: 360px;height: 270px; position: relative;background-color: #f8f8f8; overflow: hidden;" title="点击看大图" class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                     <img id="myImg" style="width: 100%; position: absolute; top: 0; right: 0; bottom: 0; left: 0; margin: auto;" data-ng-src="{{product.image_url}}" alt="{{product.name}}">
                 </div>

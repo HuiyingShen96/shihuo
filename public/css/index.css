@@ -202,3 +202,7 @@ a, a:hover, a:focus {
     /*font-weight: bold;*/
     color: black;
 }
+
+.flash{
+    color: red;
+}

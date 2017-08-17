@@ -8,7 +8,6 @@ module.exports = function () {
     var db = mongoose.connect(config.db);
 
     require('../app/models/product.server.model');
-    require('../app/models/tipOff.server.model');
     require('../app/models/tradeOrder.server.model');
     require('../app/models/user.server.model');
 

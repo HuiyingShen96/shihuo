@@ -50,6 +50,11 @@ exports.renderSignup = function(req, res, next) {
 };
 exports.signup = function(req, res, next) {
     if (!req.user) {
+        if(req.body.password != req.body.passwordAgain){
+            var message = '两次输入的密码不一致';
+            req.flash('error', message);
+            return res.redirect('/signup');
+        }
         var user = new User(req.body);
         user.provider = 'local';
 

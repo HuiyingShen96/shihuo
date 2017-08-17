@@ -22,7 +22,7 @@ angular.module('user')
                 });
             };
             $scope.update = function () {
-                $scope.user.$update(function () { // 使用了product资源的$update()方法将修改后的product对象发送给后端REST接口
+                $scope.user.$update(function () { // 使用了user资源的$update()方法将修改后的product对象发送给后端REST接口
                     $location.path('user/' + $scope.user._id);
                 }, function (errRes) {
                     $scope.error = errRes.data.message;
