@@ -14,14 +14,14 @@ clone到本地之后，按照以下顺序初始化和运行应用：
 5. 打开浏览器，地址栏输入http://localhost:3000 ，查看页面
 
 ### 功能模块图
-[assets/function_module_diagram.png]
+![image](https://github.com/oSHYo/shihuo/assets/function_module_diagram.png)
 
 ### 用例图
-[assets/use_case_diagram.png]
+![image](https://github.com/oSHYo/shihuo/assets/use_case_diagram.png)
 
 ### 数据流图
-[assets/data_flow_diagram.png]
+![image](https://github.com/oSHYo/shihuo/assets/data_flow_diagram.png)
 
 ### 效果截图：
-[assets/screenshot1.png]
-[assets/screenshot2png]
+![image](https://github.com/oSHYo/shihuo/assets/screenshot1.png)
+![image](https://github.com/oSHYo/shihuo/assets/screenshot2.png)
